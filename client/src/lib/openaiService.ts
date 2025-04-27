@@ -17,7 +17,8 @@ export async function processHealthcareQuery(query: string): Promise<string> {
     console.log("Processing healthcare query:", query);
     
     // Check if OpenAI API key is available
-    if (!import.meta.env.VITE_OPENAI_API_KEY) {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) {
       console.error("OpenAI API key not configured");
       throw new Error("OpenAI API key not configured");
     }
@@ -212,6 +213,38 @@ function getLocalFallbackResponse(query: string): string {
         <li>Take a lukewarm bath or apply cool compresses</li>
       </ul>
       <p class="text-gray-800">Seek medical attention if the fever is extremely high (above 103°F or 39.4°C), lasts more than three days, or is accompanied by severe headache, unusual skin rash, persistent vomiting, difficulty breathing, or seizures.</p>
+      <p class="text-amber-700 mt-4 text-sm">
+        <strong>Disclaimer:</strong> This information is for educational purposes only and is not a substitute 
+        for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
+      </p>
+    `;
+  }
+  
+  // Heart conditions
+  if (lowerQuery.includes("heart") || lowerQuery.includes("cardiac") || lowerQuery.includes("chest pain")) {
+    return `
+      <p class="text-gray-800 mb-3">Heart issues can range from minor concerns to serious medical emergencies. If you're experiencing chest pain, shortness of breath, or suspect a heart attack, call emergency services (911) immediately.</p>
+      
+      <p class="text-gray-800 mb-3"><strong>Warning signs of a heart attack include:</strong></p>
+      <ul class="list-disc pl-5 mb-3 text-gray-800 space-y-1">
+        <li>Chest pain or discomfort that may feel like pressure, squeezing, fullness, or pain</li>
+        <li>Pain or discomfort in one or both arms, the back, neck, jaw, or stomach</li>
+        <li>Shortness of breath (with or without chest discomfort)</li>
+        <li>Breaking out in a cold sweat, nausea, or lightheadedness</li>
+        <li>Women may experience less obvious symptoms like unusual fatigue, sleep disturbances, or shortness of breath</li>
+      </ul>
+      
+      <p class="text-gray-800 mb-3"><strong>Heart attack response:</strong></p>
+      <ul class="list-disc pl-5 mb-3 text-gray-800 space-y-1">
+        <li>Call emergency services (911) immediately</li>
+        <li>If prescribed, take nitroglycerin as directed</li>
+        <li>If not allergic to aspirin, take one (if advised by emergency dispatchers)</li>
+        <li>Begin CPR if the person is unconscious</li>
+        <li>If an AED (automated external defibrillator) is available, use it if necessary</li>
+      </ul>
+      
+      <p class="text-red-700 font-bold">This is a medical emergency requiring immediate professional attention. Do not delay seeking help.</p>
+      
       <p class="text-amber-700 mt-4 text-sm">
         <strong>Disclaimer:</strong> This information is for educational purposes only and is not a substitute 
         for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
