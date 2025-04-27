@@ -108,8 +108,30 @@ const AwsInfoModal: FC<AwsInfoModalProps> = ({ isOpen, onClose }) => {
                     </svg>
                   </div>
                   <div>
+                    <span className="font-medium text-gray-800">OpenAI Integration:</span>
+                    <p className="text-gray-600">Advanced language model integration via Lambda to provide knowledgeable healthcare responses</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="mr-3 mt-1 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
                     <span className="font-medium text-gray-800">Amazon CloudFront:</span>
                     <p className="text-gray-600">Content delivery network for fast global distribution of the application</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="mr-3 mt-1 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-800">AWS Secrets Manager:</span>
+                    <p className="text-gray-600">Securely stores API keys and credentials for external service integrations</p>
                   </div>
                 </li>
               </ul>

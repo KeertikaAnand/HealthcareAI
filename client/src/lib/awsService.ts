@@ -1,6 +1,7 @@
 import { SendMessageRequest, SendMessageResponse } from "@/types";
 import { awsConfig, healthResponses } from "./aws-config";
 import { trackEvent } from "@/utils/analytics";
+import { sendEnhancedChatMessage } from "./openaiService";
 
 /**
  * Send a message to the healthcare chatbot service via API Gateway
@@ -10,6 +11,18 @@ export async function sendChatMessage(
   request: SendMessageRequest
 ): Promise<SendMessageResponse> {
   try {
+    // Check if we have an OpenAI API key and try that first
+    if (import.meta.env.VITE_OPENAI_API_KEY) {
+      try {
+        // Use OpenAI for the most advanced responses
+        return await sendEnhancedChatMessage(request);
+      } catch (openaiError) {
+        console.error("OpenAI service error:", openaiError);
+        trackEvent("openai_error", { error: String(openaiError) });
+        // Fall through to other methods if OpenAI fails
+      }
+    }
+    
     // In a production environment, this would make a real API call to AWS services
     const endpoint = awsConfig.apiGateway?.endpoint || "";
     
