@@ -11,16 +11,19 @@ export async function sendChatMessage(
   request: SendMessageRequest
 ): Promise<SendMessageResponse> {
   try {
-    // Check if we have an OpenAI API key and try that first
-    if (import.meta.env.VITE_OPENAI_API_KEY) {
-      try {
-        // Use OpenAI for the most advanced responses
-        return await sendEnhancedChatMessage(request);
-      } catch (openaiError) {
-        console.error("OpenAI service error:", openaiError);
-        trackEvent("openai_error", { error: String(openaiError) });
-        // Fall through to other methods if OpenAI fails
-      }
+    console.log("Processing chat message:", request.message);
+    
+    // When in development mode, always use enhanced responses for the best experience
+    // This is a hybrid approach where we use local fallbacks as needed
+    try {
+      // For better responses, we'll try using the most advanced approach first
+      // This combines OpenAI intelligence with pre-defined healthcare content
+      const enhancedResponse = await sendEnhancedChatMessage(request);
+      return enhancedResponse;
+    } catch (enhancedError) {
+      console.error("Enhanced chat service error:", enhancedError);
+      trackEvent("enhanced_error", { error: String(enhancedError) });
+      // Continue to fallback options
     }
     
     // In a production environment, this would make a real API call to AWS services
@@ -28,6 +31,7 @@ export async function sendChatMessage(
     
     // Try to use the API Gateway if configured
     if (endpoint && endpoint !== "https://example-api.execute-api.us-east-1.amazonaws.com/prod") {
+      console.log("Attempting to use AWS API Gateway...");
       const response = await fetch(`${endpoint}/chat`, {
         method: "POST",
         headers: {
@@ -43,13 +47,14 @@ export async function sendChatMessage(
       return await response.json();
     }
     
-    // If no API Gateway or using the default, use the local fallback responses
+    // If all else fails, use the local fallback responses
+    console.log("Using offline response handler...");
     return handleOfflineResponse(request);
   } catch (error) {
     console.error("Error sending message to chatbot service:", error);
     trackEvent("api_error", { error: String(error) });
     
-    // Fallback to local response if API call fails
+    // Fallback to local response if all other methods fail
     return handleOfflineResponse(request);
   }
 }
