@@ -1,15 +1,9 @@
-import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
+import path from 'path';
 
-// Use __dirname without ES module issues
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-// Fix paths by using require instead of __dirname
-const __dirname = path.dirname(require.resolve('./vite.config.ts'));
-
+// Direct path resolutions using relative paths instead of __dirname
 export default defineConfig({
   plugins: [
     react(),
@@ -17,17 +11,17 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "client", "src"),
-      "@shared": path.resolve(__dirname, "shared"),
-      "@assets": path.resolve(__dirname, "attached_assets"),
+      "@": path.resolve("client", "src"),
+      "@shared": path.resolve("shared"),
+      "@assets": path.resolve("attached_assets"),
     },
   },
-  root: path.resolve(__dirname, "client"),
+  root: path.resolve("client"),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve("dist/public"),
     emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, "client", "index.html"),
+      input: path.resolve("client", "index.html"),
     },
   },
 });
