@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// __dirname is not available in ESM, so we use the following workaround:
+// Workaround for ES Modules in Node.js to get __dirname
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
