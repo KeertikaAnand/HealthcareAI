@@ -1,13 +1,11 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { fileURLToPath } from "url";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
-// ✅ Manually define __filename and __dirname
 const __filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
-
+const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [
     react(),
