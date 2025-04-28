@@ -3,9 +3,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Fixing the issue by using __dirname in Node.js-compatible way
-const __dirname = path.resolve();  // Manually define __dirname in ESM
-
 export default defineConfig({
   plugins: [
     react(),
@@ -21,14 +18,14 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "client", "src"),
-      "@shared": path.resolve(__dirname, "shared"),
-      "@assets": path.resolve(__dirname, "attached_assets"),
+      "@": path.resolve(__dirname, "client", "src"),   // Use __dirname here
+      "@shared": path.resolve(__dirname, "shared"),   // Use __dirname here
+      "@assets": path.resolve(__dirname, "attached_assets"), // Use __dirname here
     },
   },
-  root: path.resolve(__dirname, "client"),
+  root: path.resolve(__dirname, "client"),   // Use __dirname here
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(__dirname, "dist/public"),   // Use __dirname here
     emptyOutDir: true,
   },
 });
