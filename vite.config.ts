@@ -18,14 +18,17 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "client", "src"),   // Use __dirname here
-      "@shared": path.resolve(__dirname, "shared"),   // Use __dirname here
-      "@assets": path.resolve(__dirname, "attached_assets"), // Use __dirname here
+      "@": path.resolve(__dirname, "client", "src"), // Ensure this path is correct
+      "@shared": path.resolve(__dirname, "shared"),
+      "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  root: path.resolve(__dirname, "client"),   // Use __dirname here
+  root: path.resolve(__dirname, "client"),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),   // Use __dirname here
+    outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: path.resolve(__dirname, 'client', 'index.html'), // Ensure entry is correctly resolved
+    },
   },
 });
