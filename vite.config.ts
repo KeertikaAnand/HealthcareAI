@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
+// Helper to get __dirname equivalent in ES module
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 export default defineConfig({
   plugins: [
     react(),
