@@ -1,36 +1,29 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
-// Workaround for ES Modules in Node.js to get __dirname
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// Fixing the issue by directly using process.cwd() instead of __dirname
 export default defineConfig({
   plugins: [
     react(),
     runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
+    ...(process.env.NODE_ENV !== 'production' && process.env.REPL_ID !== undefined
       ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
+          await import('@replit/vite-plugin-cartographer').then((m) => m.cartographer()),
         ]
       : []),
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "client", "src"),
-      "@shared": path.resolve(__dirname, "shared"),
-      "@assets": path.resolve(__dirname, "attached_assets"),
+      '@': path.resolve(process.cwd(), 'client', 'src'),
+      '@shared': path.resolve(process.cwd(), 'shared'),
+      '@assets': path.resolve(process.cwd(), 'attached_assets'),
     },
   },
-  root: path.resolve(__dirname, "client"),
+  root: path.resolve(process.cwd(), 'client'),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(process.cwd(), 'dist/public'),
     emptyOutDir: true,
   },
 });
